@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- /index URL요청이면 class에 해당하는 class를 객체화해서 호출한다 -->
+    <bean name="/index" class="com.newlecture.web.controller.IndexController"/>
+    <bean name="/notice/list" class="com.newlecture.web.controller.notice.ListController">
+    	<property name="noticeService" ref="noticeService"></property>
+    </bean>
+    <bean name="/notice/detail" class="com.newlecture.web.controller.notice.DetailController"/>
+    <!-- name은 실제 경로가 아닌 class를 호출하기 위한 이름이다 -->
+    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="prefix" value="/WEB-INF/view/"/>
+    	<property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <bean
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<property name="order" value="1" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions" value="/WEB-INF/tiles.xml" />
+	</bean>
+
+	
+    
+    
+    
+    <!-- 사용자가 /**(루트에 있는)모든 URL요청을 location의 경로에 있는 곳에서 처리하겠다는 의미  -->
+    <mvc:resources location="/static/" mapping="/**"></mvc:resources>
+    
+    <!-- 연결 정보 분리하기 -->
+    <bean id="noticeService" class="com.newlecture.web.service.jdbc.JDBCNoticeService">
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+    	<property name="url" value="jdbc:oracle:thin:@localhost:1521/xepdb1"/>
+    	<property name="username" value="NEWLEC"/>
+    	<property name="password" value="1207"/>
+    </bean>	
+<!-- 
+private String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
+//	private String uid = "NEWLEC";
+//	private String pwd = "1207";
+//	private String driver = "oracle.jdbc.driver.OracleDriver";
+-->
+    
+    
+</beans>

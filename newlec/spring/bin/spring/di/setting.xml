@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 
+스프링은 bean태그를 이용해서 생성할 객체를 지시한다
+bean의 속성은 id와 class가 있다
+단, class에 적을 때에는 패키지명도 같이 작성해주어야 한다
+		
+Exam exam = new NewlecExam();
+ExamConsole console = new GridExamConsole();
+console.setExam(exam);		
+위 내용들을 bean으로 바꿀 경우 아래와 같이 바꿀 수 있다 
+
+property name에 setExam인 경우 set은 생략하고 단어의 시작은 소문자로 한다
+property의 속성으로 name과 value/ref가 있는데 value와 ref에 따라 값을 채운다
+name에 exam으로 할 경우 setter함수를 사용하는 것이다.
+ -->
+	<bean id="exam" class="spring.di.entity.NewlecExam" />
+	<bean id="console" class="spring.di.ui.GridExamConsole">
+		<property name="exam" ref="exam" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+<!-- 
+스프링은 bean태그를 이용해서 생성할 객체를 지시한다
+bean의 속성은 id와 class가 있다
+단, class에 적을 때에는 패키지명도 같이 작성해주어야 한다
+		
+Exam exam = new NewlecExam();
+ExamConsole console = new GridExamConsole();
+console.setExam(exam);		
+위 내용들을 bean으로 바꿀 경우 아래와 같이 바꿀 수 있다 
+
+property name에 setExam인 경우 set은 생략하고 단어의 시작은 소문자로 한다
+property의 속성으로 name과 value/ref가 있는데 value와 ref에 따라 값을 채운다
+name에 exam으로 할 경우 setter함수를 사용하는 것이다.
+ -->
+ 	<!-- <context:annotation-config/> -->
+ 	<context:component-scan base-package="spring.di.ui, spring.di.entity" />
+	<bean id="exam" class="spring.di.entity.NewlecExam" /> 
+<!-- 	<bean id="exam1" class="spring.di.entity.NewlecExam" p:kor="10" p:eng="10" />
+	<bean id="exam2" class="spring.di.entity.NewlecExam" p:kor="20" p:eng="20" /> --> 
+		<!-- setter를 통한 DI -->
+		<!-- 
+		<property name="kor" value="10"/>
+		<property name="eng" value="10"/>
+		<property name="math" value="10"/>
+		<property name="com" value="10"/>
+		 -->
+		 
+		 <!-- 생성자를 통한 DI.. index -->
+		 <!-- 
+		 <constructor-arg index="0" value="10"/>
+		 <constructor-arg index="1" value="20"/>
+		 <constructor-arg index="3" value="30"/>
+		 <constructor-arg index="2" value="40"/>
+		  -->
+		  
+		 <!-- 생성자를 통한 DI.. name --> 
+		 <!-- 
+		 <constructor-arg name="kor" value="10"/>
+		 <constructor-arg name="eng" value="20"/>
+		 <constructor-arg name="com" value="30"/>
+		 <constructor-arg name="math" value="40"/>
+		  -->
+	<!-- <bean id="console" class="spring.di.ui.InlineExamConsole">
+		 <property name="exam" ref="exam" /> 
+	</bean> -->
+	
+	<!-- 
+	<util:list id="exams" list-class="java.util.ArrayList"> 
+		<bean class="spring.di.entity.NewlecExam" p:kor="1" p:eng="1" />
+		<ref bean="exam"/>
+	</util:list> 
+	-->
+		
+	<!-- 	
+	<bean id="exams" class="java.util.ArrayList" >
+		<constructor-arg> 
+			<list> 
+				<bean class="spring.di.entity.NewlecExam" p:kor="1" p:eng="1" />
+				<ref bean="exam"/>
+			</list>
+		</constructor-arg>
+		
+	</bean>
+	-->
+	
+</beans>
