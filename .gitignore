@@ -1,0 +1,19 @@
+## .gitignore setting test
+
+### Eclipse ###
+.settings/
+target/
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+### Eclipse Patch ###
+# Eclipse Core
+.project
+
+# STS (Spring Tool Suite)
+.springBeans
+
+### Java ###
+# Compiled class file
+*.class
