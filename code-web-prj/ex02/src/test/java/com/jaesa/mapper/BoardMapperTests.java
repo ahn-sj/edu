@@ -55,4 +55,34 @@ public class BoardMapperTests {
 		log.info("after insertSelectKey >> " + vo.getBno()); // bno값을 load
 		log.info("---------------------");
 	}
+	
+	@Test
+	public void testRead() {
+		BoardVO vo = boardMapper.read(5L);
+		log.info("---------------------");
+		log.info(vo);
+		log.info("---------------------");
+	}
+	
+	@Test
+	public void testDelete() {
+		int count = boardMapper.delete(41L);
+		log.info("---------------------");
+		log.info(count);
+		log.info("---------------------");
+	}
+	
+	@Test
+	public void testUpdate() {
+		BoardVO vo = new BoardVO();
+		vo.setBno(21L);
+		
+		vo.setTitle("Update Title");
+		vo.setContent("Update Content");
+		vo.setWriter("Update Writer");
+		
+		log.info("---------------------");
+		log.info(boardMapper.update(vo));
+		log.info("---------------------");
+	}
 }
