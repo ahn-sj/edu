@@ -1,3 +1,0 @@
-This is fopen process test.
-i dont understand exec not hangul..
-bye
