@@ -10,12 +10,19 @@ IDE : STS 3.9.14 (Spring Tool Suite)
 Apache Tomcat 9.0.53
 Spring version : 5.2.7
 ```
+<br>
+
+## dependencies
 ```
+**modify**
+----------------------------
 junit 4.7 -> 4.12
 javax.servlet 2.1 -> 4.0.1
 log4j 1.2.15 -> 1.2.17
 ```
 ```
+**insert**
+----------------------------
 spring-test
 spring-tdx
 spring-jdbc
@@ -23,6 +30,6 @@ spring-jdbc
 HikariCP 3.4.5
 mybatis 3.5.7
 mybatis-spring 2.0.6 
-log4jdbc-log4j2 1.16 (+ log4jdbc property)
+log4jdbc-log4j2 1.16 (+ log4jdbc property file)
 lombok 1.18.16
 ```
