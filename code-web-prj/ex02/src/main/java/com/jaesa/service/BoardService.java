@@ -6,8 +6,10 @@ import com.jaesa.domain.BoardVO;
 
 public interface BoardService {
 	// 등록
+	// 1) insert
 //	void register(BoardVO board);
-	// n번의 게시물이 등록되었습니다 를 표현할 때는 반환타입을 Long으로 준다
+	
+	// 2) insert - selecyKey
 	Long register(BoardVO board);
 	
 	// 조회

@@ -20,11 +20,13 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	// 삽입
-	// n번의 게시물이 등록되었습니다 를 표현할 때는 반환타입을 Long으로 준다
+	// 1. insert
 //	@Override
 //	public void register(BoardVO board) {
 //		mapper.insert(board);
 //	}
+	
+	// 2. insert - selectKey
 	@Override
 	public Long register(BoardVO board) {
 		mapper.insertSelectKey(board);
