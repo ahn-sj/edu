@@ -39,19 +39,27 @@ public class BoardController {
 //		log.info("bno" + bno);
 //	}
 	
+	
+	@GetMapping("/register")
+	public void registerGET() {
+		log.info("register GET..");
+	}
+	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("board" + board);
-		
 		Long bno = service.register(board);
+		
+		log.info("board" + board);
 		log.info("bno" + bno);
+		
+		rttr.addFlashAttribute("result", bno);
 		
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping("/get")
+	@GetMapping({"/get", "/modify"})
 	public void get(@RequestParam("bno")Long bno, Model model) {
-		log.info("/get");
+		log.info("/get and /modify");
 		
 		model.addAttribute("board", service.get(bno)) ;
 	}
