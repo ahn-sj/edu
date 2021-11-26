@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.jaesa.domain.BoardVO;
+import com.jaesa.domain.Criteria;
 import com.jaesa.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> getList() {
 		return mapper.getList();
+	}
+
+	// DTO Paging getList
+	@Override
+	public List<BoardVO> getList(Criteria cri) {
+		return mapper.getListWithPaging(cri);
 	}
 	
 }

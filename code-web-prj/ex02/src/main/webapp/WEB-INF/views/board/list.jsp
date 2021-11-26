@@ -3,7 +3,7 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
  
-	<%@include file="../includes/header.jsp"  %>
+<%@include file="../includes/header.jsp"  %>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -85,7 +85,10 @@
 		function checkModal(result) {
 			if(result === '' || history.state) return;
 			
-			if(parseInt(result) > 0) {
+			if(result === 'success') {
+				$(".modal-body").html(
+					"정상적으로 처리되었습니다.");
+			} else if(parseInt(result) > 0) {
 				$(".modal-body").html(
 					"게시글 " + parseInt(result) + " 번이 등록되었습니다.");
 			}
@@ -98,4 +101,4 @@
 	});
 </script>
             
-        <%@include file="../includes/footer.jsp"%>
+<%@include file="../includes/footer.jsp"%>

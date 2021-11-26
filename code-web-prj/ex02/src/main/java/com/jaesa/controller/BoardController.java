@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jaesa.domain.BoardVO;
+import com.jaesa.domain.Criteria;
 import com.jaesa.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,25 @@ public class BoardController {
 	
 	private final BoardService service;
 	
+	// not used paging - getList()
+//	@GetMapping("/list")
+//	public void list(Model model) {
+//		log.info("-----------------");
+//		log.info("list..........");
+//		log.info("-----------------");
+//		
+//		model.addAttribute("list", service.getList());
+//	}
+	
+	
+	// used paging - getList(cri)
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list(Criteria cri, Model model) {
 		log.info("-----------------");
-		log.info("list..........");
+		log.info("getList(cri)..........");
 		log.info("-----------------");
 		
-		model.addAttribute("list", service.getList());
+		model.addAttribute("list", service.getList(cri));
 	}
 	
 //	@PostMapping("/register")
@@ -69,7 +82,7 @@ public class BoardController {
 		int cnt = service.modify(board);
 		
 		if(cnt == 1) rttr.addFlashAttribute("result", "success"); 
-		return "redirct:/board/list";
+		return "redirect:/board/list";
 	}
 	
 	@PostMapping("/remove")
@@ -77,7 +90,7 @@ public class BoardController {
 		int cnt = service.remove(bno);
 		
 		if(cnt == 1) rttr.addFlashAttribute("result", "success"); 
-		return "redirct:/board/list";
+		return "redirect:/board/list";
 	}
 	
 }

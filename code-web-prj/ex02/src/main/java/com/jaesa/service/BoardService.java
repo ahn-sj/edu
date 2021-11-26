@@ -3,6 +3,7 @@ package com.jaesa.service;
 import java.util.List;
 
 import com.jaesa.domain.BoardVO;
+import com.jaesa.domain.Criteria;
 
 public interface BoardService {
 	// 등록
@@ -23,4 +24,7 @@ public interface BoardService {
 	
 	// 전체 목록 조회
 	List<BoardVO> getList();
+	
+//	DTO
+	List<BoardVO> getList(Criteria cri);
 }

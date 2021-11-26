@@ -3,6 +3,7 @@ package com.jaesa.mapper;
 import java.util.List;
 
 import com.jaesa.domain.BoardVO;
+import com.jaesa.domain.Criteria;
 
 public interface BoardMapper {
 	// select문
@@ -22,4 +23,8 @@ public interface BoardMapper {
 	
 	// update문
 	int update(BoardVO board);
+	
+	
+	/* DTO */
+	List<BoardVO> getListWithPaging(Criteria cri);
 }

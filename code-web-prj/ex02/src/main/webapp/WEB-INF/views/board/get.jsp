@@ -11,6 +11,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
@@ -47,8 +48,8 @@
 								<input class="form-control" name="writer" value='<c:out value="${board.writer}"/>'>
 							</div>
 			
-							<button type="submit" class="btn btn-default">Submit Button</button>
-							<button type="reset" class="btn btn-default">Reset Button</button>
+							<button type="submit" class="btn btn-default"><a href='/board/list'>List</a></button>
+							<button type="reset" class="btn btn-default"><a href='/board/modify?bno=<c:out value="${board.bno}"/>'>Modify</a></button>
 			
 						</div>
 				<!-- /.panel-body -->

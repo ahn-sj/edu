@@ -1,5 +1,7 @@
 package com.jaesa.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jaesa.domain.BoardVO;
+import com.jaesa.domain.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -85,4 +88,17 @@ public class BoardMapperTests {
 		log.info(boardMapper.update(vo));
 		log.info("---------------------");
 	}
+	
+	@Test
+	public void testGetListWithPaging() {
+		// 1 / 10
+		Criteria cri = new Criteria();
+		
+		List<BoardVO> list = boardMapper.getListWithPaging(cri);
+		
+		log.info("---------------------");
+		log.info(list);
+		log.info("---------------------");
+	}
+	
 }
