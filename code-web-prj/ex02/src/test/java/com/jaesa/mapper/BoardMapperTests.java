@@ -1,6 +1,8 @@
 package com.jaesa.mapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jaesa.domain.BoardVO;
 import com.jaesa.domain.Criteria;
+import com.jaesa.domain.PageDTO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -97,8 +100,85 @@ public class BoardMapperTests {
 		List<BoardVO> list = boardMapper.getListWithPaging(cri);
 		
 		log.info("---------------------");
+//		log.info(list);
+		list.forEach(b -> log.info(b));
+		log.info("---------------------");
+	}
+	
+	@Test
+	public void testPageDTO() {
+		Criteria cri = new Criteria();
+		// 현재 11페이지로 설정
+		// case 1 = 아무런 조건 없음
+		
+		// case 2 = 현재 11페이지 (next, prev true여야 함)
+		// cri.setPageNum(11);
+		
+		// case 3 = 현재 21페이지 (next false여야 함)
+		// cri.setPageNum(21);
+		
+		// case 1~3, cri는 1, 10이고 total(전체 게시물 목록)은 250개로 지정
+		// PageDTO pageDTO = new PageDTO(cri, 250);
+		
+		// ---------------------------------------
+		
+		// case 4 = 현재 25페이지 (next false여야 함)
+		cri.setPageNum(25);
+		
+		// case 4, total이 251개
+		PageDTO pageDTO = new PageDTO(cri, 251);
+
+		
+		log.info("---------------------");
+		log.info(pageDTO);
+		log.info("---------------------");
+	}
+	
+	@Test
+	public void testGetTotalCount() {
+		Criteria cri = new Criteria();
+		
+		int cnt = boardMapper.getTotalCount(cri);
+		
+		log.info("---------------------");
+		log.info(cnt);
+		log.info("---------------------");
+		
+	}
+	
+	@Test
+	public void testSearchTest() {
+		Map<String, String> map = new HashMap<>();
+		
+//		T == title, C == content, W = writer
+		// 아래 put 3문장을 주석처리하면 
+		// select * from tbl_board where rownum < 10
+		// 의 결과가 출력된다.
+		map.put("T", "TTT");
+		map.put("C", "CCC");
+		map.put("W", "WWW");
+		
+		Map<String, Map<String, String>> outer = new HashMap<>();
+		outer.put("map", map);
+		
+		List<BoardVO> list = boardMapper.searchTest(outer);
+		
+		log.info("---------------------");
 		log.info(list);
 		log.info("---------------------");
 	}
 	
+	
+	@Test
+	public void testGetListWithPagingSearch() {
+		Criteria cri = new Criteria();
+		cri.setType("TCW");
+		cri.setKeyword("Test");
+		
+		List<BoardVO> list = boardMapper.getListWithPaging(cri);
+		
+		log.info("---------------------");
+		list.forEach(b -> log.info(b));
+		log.info("---------------------");
+	}
 }

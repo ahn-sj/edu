@@ -18,11 +18,18 @@
                         <div class="panel-heading">
                             Board Modify/Delete
                         </div>
-	                        <!-- /.panel-heading -->
+	                    <!-- /.panel-heading -->
+	                    
 						<div class="panel-body">
+							
 							<form>
+							
 								<!-- <h1>Board Register</h1> -->
-				
+								
+								<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+								<input type='hidden' name='amount' value='${cri.amount}'>
+								
+								
 								<!-- bno  -->
 								<div class="form-group">
 									<label>BNO</label> 
@@ -49,7 +56,8 @@
 				
 								<button type="button" class="btn btn-default" data-oper='modify'>Modify</button>
 								<button type="button" class="btn btn-danger" data-oper='remove'>Remove</button>
-								<button type="button" class="btn btn-info" data-oper='list'>List</button>
+								<button type="button" class="btn btn-info listBtn" data-oper='list'>List</button>
+								<!-- modify.jsp에서 List버튼 클릭시 해당 목록으로 이동하기 미구현 -->
 							</form>
 						</div>
 						<!-- /.panel-body -->
@@ -88,6 +96,8 @@
 			}
 		})
 	});
+	
+	var actionForm = $("#actionForm");
 </script>
             
         <%@include file="../includes/footer.jsp"%>

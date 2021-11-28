@@ -47,10 +47,42 @@
 								<label>Writer</label> 
 								<input class="form-control" name="writer" value='<c:out value="${board.writer}"/>'>
 							</div>
-			
-							<button type="submit" class="btn btn-default"><a href='/board/list'>List</a></button>
-							<button type="reset" class="btn btn-default"><a href='/board/modify?bno=<c:out value="${board.bno}"/>'>Modify</a></button>
-			
+							
+							
+							<!-- form start -->
+                            <form id='actionForm' action="/board/list" method='get'>
+                            	<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+                            	<input type='hidden' name='amount' value='${cri.amount}'>
+                            	<input type='hidden' name='bno' value='${board.bno}'>
+                            	<input type='hidden' name='type' value='${cri.type}'>
+                            	<input type='hidden' name='keyword' value='${cri.keyword}'>
+                            </form>
+                            <!-- form end -->
+                            
+							<button type="button" class="btn btn-default listBtn"><a href='/board/list'>List</a></button>
+							<button type="button" class="btn btn-default modBtn"><a href='/board/modify?bno=<c:out value="${board.bno}"/>'>Modify</a></button>
+							
+							<!-- used form for board-detail to list  active start -->
+							<script>
+							
+								var actionForm = $("#actionForm");
+								
+								$(".listBtn").click(function(e) {
+									e.preventDefault();
+									/* 해당 페이지로 이동할 때 bno는 제거함 */
+									/* http://localhost:8080/board/list?pageNum=1&amount=10 */
+									actionForm.find("input[name='bno']").remove();
+									actionForm.submit();
+								});
+								
+								$(".modBtn").click(function(e) {
+									e.preventDefault();
+									/* http://localhost:8080/board/modify?pageNum=1&amount=10&bno=37 */
+									actionForm.attr("action", "/board/modify");
+									actionForm.submit();
+								});
+							</script>
+							<!-- used form for board-detail to list  active end -->
 						</div>
 				<!-- /.panel-body -->
                     </div>
