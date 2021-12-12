@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>쿵쿵따</title>
+</head>
+<body>
+  <div><span id="order">1</span> 번째 참가자</div>
+  <div>입력값 : <span id="word"></span></div>
+  <input id='in' type="text">
+  <button>입력</button>
+
+<script>
+  const num = parseInt(prompt('참여자가 몇 명 입니까?'));
+
+  // if(num === NaN) break;
+  let inWord;
+
+  console.log(num);
+
+  const $order = document.querySelector('#order');
+  const $word = document.querySelector('#word');
+
+  const $text = document.querySelector('#in');
+  const $btn = document.querySelector('button');
+
+  $text.addEventListener('input', (event) => {
+    inWord = event.target.value;
+  })
+
+  $btn.addEventListener('click', () => {
+    const order = parseInt($order.textContent);
+    // console.log('btn click..');
+    console.log(inWord)
+
+    if(inWord.length === 3 || !inWord) {
+      $word.textContent = inWord;
+
+      $order.textContent = order + 1;
+
+      if(order == num) $order.textContent = 1;
+    } else {
+      alert('3글자가 아닙니다. 다시 입력하세요.');
+    }
+    $text.value = '';
+    $text.focus();
+  });
+</script>
+</body>
+</html>

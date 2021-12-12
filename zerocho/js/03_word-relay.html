@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>끝말잇기</title>
+</head>
+<body>
+  <div><span id="order">1</span> 번째 참가자</div>
+  <div>제시어 : <span id="word"></span></div>
+  <input type="text">
+  <button>입력</button>
+<script>
+
+  const num = parseInt(prompt('몇 명이 참여합니까?'));
+  console.log('num > ' + num);
+
+  const $btn = document.querySelector('button');
+  const $in = document.querySelector('input');
+  const $word = document.querySelector('#word');
+  const $order = document.querySelector('#order');
+
+  let word;
+  let newWord;
+
+  console.log("!word " + !word + " " + (typeof word));
+
+  $btn.addEventListener('click', function() {
+    if(!word || word[word.length - 1] === newWord[0]) { // temp
+      word = newWord;
+      $word.textContent = word;
+      // $in.value = '';
+      const order = parseInt($order.textContent);
+      console.log(word + " " + order);
+      // $in.focus();
+
+      if(order + 1 > num){ // 현재 순서
+        $order.textContent = 1;
+      }
+      else {
+        $order.textContent = order + 1;
+      }
+    }
+    else {
+        // console.log('word !== newWord'); 
+        alert('not currect');
+    }
+    $in.value = '';
+    $in.focus();
+  });
+
+  $in.addEventListener('input', function(event) {
+    newWord = event.target.value;
+  });
+
+</script>
+</body>
+</html>

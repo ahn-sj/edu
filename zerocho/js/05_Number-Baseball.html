@@ -1,0 +1,147 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>숫자야구게임</title>
+</head>
+<body>
+
+<form id='form' action="">
+  <input id='in' type="text">
+  <button>확인</button>
+</form>
+
+<h2>-- Above Try --</h2>
+<div id='tryLog'></div>
+
+<script>
+  const $input = document.querySelector('#in');
+  const $form = document.querySelector('#form');
+
+  const $tryLog = document.querySelector('#tryLog');
+
+  const numbers = new Array(4);
+  const tried = [];
+
+  // 중복값 없이 4자리 배열 생성
+  for(let i = 0; i < numbers.length; i++) {
+    numbers[i] = Math.floor(Math.random() * 9) + 1;
+    for(let j = 0; j < i; j++) {
+      if(numbers[i] === numbers[j]) {
+        i--;
+        break;
+      }
+    }
+  }
+  console.log(numbers);
+  /* --------------------------- */
+  /*       입력값 체크           */
+  /* --------------------------- */
+  function checkedInput(_value) {
+    // alert의 return값은 'undefined'(=false)이다.
+    if(_value.length !== 4) { // 자릿수 검사
+      return alert('4자리 숫자를 입력해 주세요');
+    }
+    if(new Set(_value).size !== 4) { // 입력값 중 중복 검사
+      console.log(_value);
+      return alert('입력한 값 중 중복된 값이 존재합니다.');
+    }
+    if(tried.includes(_value)) { // 입력한 값 검사
+      return alert('이미 시도한 값입니다.');
+    }
+    return true;
+  }
+
+  // 아웃 카운트
+  let outCount = 0;
+
+  $form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    // console.log('submit');
+
+    const jump = document.createElement('br');
+
+    const value = $input.value;
+    $input.value = '';
+
+    // called checkedInput
+    if(!checkedInput(value)) { // !false
+      // console.log('existed error');
+      return;
+    }
+
+    /* --------------------------- */
+    /*       홈런인 경우           */
+    /* --------------------------- */
+    if(numbers.join('') === value) {
+      console.log('HR');
+      $tryLog.append(jump);
+      $tryLog.append(document.createTextNode('HR!!'));
+      // $tryLog.innerHTML = $tryLog.textContent + '<br/>HR!';
+      return;
+    }
+
+    /* --------------------------- */
+    /*   시도횟수를 초과한 경우     */
+    /* --------------------------- */
+    if(tried.length >= 9) {
+      $tryLog.append(jump);
+      $tryLog.append(document.createTextNode(`10회 시도 실패. 정답은 ${numbers.join('')}`));
+      return;
+    }
+
+    /* --------------------------- */
+    /*   Checked n-Strike n-Ball   */
+    /* --------------------------- */
+    let strike = 0;
+    let ball = 0;
+
+    for(let i = 0; i < numbers.length; i++) {
+      // valueOf는 this에 obj의 값이 존재하는 경우
+      // this에서 obj의 값이 위치한 인덱스 번호를 반환한다.
+      // 값이 존재하면 this의 인덱스 번호를 반환하고 찾지못하면 -1을 반환한다.
+      if(value.indexOf(numbers[i]) !== -1) {
+        if(value.indexOf(numbers[i]) == i) { // 입력값과 정답의 자릿수별 비교를 한다
+          strike++;
+        } else {
+          ball++;
+        }
+      }
+    }
+    /* --------------------------- */
+    /*     한 개도 못맞춘 경우      */
+    /* --------------------------- */
+
+    if(strike === 0 && ball === 0) {
+      // return console.log('zero.');
+      outCount++;
+
+      $tryLog.append(jump);
+      $tryLog.append(document.createTextNode(`땡!! 아웃 카운트 : ${outCount}, 0 strike 0 ball.`));
+
+      if(outCount === 3) {
+        $tryLog.append(document.createElement('br'), '------ [ outCount === 3 ] ------');
+        return;
+      }
+      return;
+    }
+    /* --------------------------- */
+    /*     한 개라도 맞춘 경우      */
+    /* --------------------------- */
+    $tryLog.append(jump);
+    $tryLog.append(document.createTextNode(`${value} 는 ${strike} strike, ${ball} ball`));
+
+    // append을 할 때 문자열인 경우에 createTextNode를 써주지 않아도 추가가 된다.
+    // 또한, append는 여러개를 추가할 수 있다. 아래 코드처럼 가능.
+    // $tryLog.append(`${strike} strike, ${ball} ball`, document.createElement('br'));
+
+
+    // add array - tried val
+    tried.push(value);
+    // console.log('not existed error');
+  });
+
+</script>
+</body>
+</html>
