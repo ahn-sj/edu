@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가위바위보</title>
+  <style>
+    #computer {
+      width: 142px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="computer"></div>
+  <div>
+    <button id="scissors" class="btn">가위</button>
+    <button id="rock" class="btn">바위</button>
+    <button id="paper" class="btn">보</button>
+  </div>
+  <div id="score">0</div>    
+<script>
+  const $computer = document.querySelector('#computer');
+  const $score = document.querySelector('#score');
+
+  const $scissors = document.querySelector('#scissors');
+  const $rock = document.querySelector('#rock');
+  const $paper = document.querySelector('#paper');
+
+  const IMG_URL = "./rsp.png";
+
+
+  /* --------------------------- */
+  /*  화면에 가위 바위 보 띄우기   */
+  /* --------------------------- */
+  // -0 / -220px / -440px -- backgroundPosition(이미지의 가로위치 세로위치)
+  $computer.style.background = `url(${IMG_URL}) -0 -0`;
+  $computer.style.backgroundSize = 'auto 200px'; // width = auto, height = 200px
+
+  // object rspX
+  const rspX = {
+    scissors: '0', // 가위
+    rock: '-220px', // 바위
+    paper: '-440px', // 보
+  };
+  
+  // r OR s OR p
+  let rspMode = 'sci';
+
+  const changeRSP = () => {
+    if(rspMode === 'sci') {       // 가위
+      rspMode = 'roc';
+      $computer.style.background = `url(${IMG_URL}) ${rspX.rock} 0`;
+    } else if(rspMode === 'roc'){ // 바위
+      rspMode = 'pap';
+      $computer.style.background = `url(${IMG_URL}) ${rspX.paper} 0`;
+    } else if(rspMode === 'pap') {                  // 보
+      rspMode = 'sci';
+      $computer.style.background = `url(${IMG_URL}) ${rspX.scissors} 0`;
+    }    
+    $computer.style.backgroundSize = 'auto 200px';
+  };
+  
+  setInterval(changeRSP, 50);
+
+  
+
+</script>  
+</body>
+</html>
