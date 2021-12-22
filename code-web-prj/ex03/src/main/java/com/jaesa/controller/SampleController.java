@@ -26,6 +26,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class SampleController {
 	
+	// 문자열
 	@GetMapping(value = "/getText", produces = "text/plain; charset=UTF-8")
 	public String getText() {
 		log.info("MIME TYPE : " + MediaType.TEXT_PLAIN_VALUE);
@@ -33,6 +34,8 @@ public class SampleController {
 		return "안녕하세요";
 	}
 	
+	// sample/getSample = XML
+	// sample/getSample.json = JSON
 	@GetMapping(value="/getSample", produces= {MediaType.APPLICATION_JSON_UTF8_VALUE,
 												MediaType.APPLICATION_XML_VALUE})
 	public SampleVO getSample() {
@@ -43,6 +46,7 @@ public class SampleController {
 		return new SampleVO(112, "스타", "로드");		
 	}
 	
+	// Collection Type - List
 	@GetMapping(value="/getList")
 	public List<SampleVO> getList() {
 		
@@ -51,6 +55,7 @@ public class SampleController {
 				.collect(Collectors.toList());
 	}
 	
+	// Collection Type - Map
 	@GetMapping(value="/getMap")
 	public Map<String, SampleVO> getMap() {
 		Map<String, SampleVO> map = new HashMap<>();
@@ -60,6 +65,7 @@ public class SampleController {
 		return map;
 	}
 	
+	// ResponseEntity - HTTP state code, Error Msg
 	@GetMapping(value="/check", params={"height", "weight"})
 	public ResponseEntity<SampleVO> check(Double height, Double weight) {
 		SampleVO vo = new SampleVO(0, "" + height, ""+ weight);
