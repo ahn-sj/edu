@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+ 
+ 
+<!-- namespace는 Mapper.xml의 경로와 일치 -->  
+<!-- id는 mapper인터페이스의 함수와 일치 -->
+<mapper namespace="com.jaesa.mapper.BoardMapper">
+
+ <sql id="criteria">
+	 <trim prefix="(" suffix=") AND">
+		<!-- typeArr은 Criteria에 존재하는 getTypeArr()을 호출 -->
+		<foreach collection="typeArr" item="type" separator="OR">
+			<if test="type == 'T'.toString()">
+				title like '%'||#{keyword}||'%'
+			</if>
+			<if test="type == 'C'.toString()">
+				content like '%'||#{keyword}||'%'
+			</if>
+			<if test="type == 'W'.toString()">
+				writer like '%'||#{keyword}||'%'
+			</if>
+		</foreach>
+	</trim>
+ </sql>
+ 
+	<select id="getList" resultType="com.jaesa.domain.BoardVO">
+		select * 
+		from tbl_board 
+		order by bno desc
+	</select>
+	
+	<insert id="insert">
+		insert into tbl_board (bno, title, content, writer)
+		values(seq_board.nextval, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<!-- long은 myBatis가 java.lang.Long으로 바꿔준다 -->
+	<insert id="insertSelectKey">
+		<selectKey order="BEFORE" keyProperty="bno" resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board (bno, title, content, writer)
+		values(#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="com.jaesa.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>	
+	
+	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+	</delete>
+	
+	<update id="update">
+		update tbl_board
+		set title = #{title},
+			content = #{content},
+			writer = #{writer},
+			updatedate = sysdate
+		where bno = #{bno}
+	</update>
+		
+	
+	<!-- DTO -->	
+	<!-- <select id="getListWithPaging" resultType="com.jaesa.domain.BoardVO">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, WRITER, REGDATE, UPDATEDATE
+			        FROM TBL_BOARD
+			        WHERE BNO > 0 AND ROWNUM > 0 AND ROWNUM <= (#{pageNum} * #{amount}))
+			WHERE RN > ((#{pageNum}-1) * #{amount})
+		]]>
+	</select> -->
+	
+	
+	<!-- case type : TCW, keyword : Test
+	SELECT * 
+	FROM (SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, WRITER, REGDATE, UPDATEDATE 
+			FROM TBL_BOARD 
+			WHERE ( title like '%'||'Test'||'%' OR 
+			content like '%'||'Test'||'%' OR 
+			writer like '%'||'Test'||'%' ) AND 
+			BNO > 0 AND ROWNUM > 0 AND 
+			ROWNUM <= (1 * 10)) 
+	WHERE RN > ((1-1) * 10)
+	-->
+	<select id="getListWithPaging" resultType="com.jaesa.domain.BoardVO">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT /*+ INDEX_DESC(TBL_BOARD PK_BOARD) */ ROWNUM RN, BNO, TITLE, WRITER, REGDATE, UPDATEDATE
+			        FROM TBL_BOARD
+			        WHERE 
+		]]>
+		
+		<include refid="criteria"/>
+		
+		<![CDATA[	        
+			        BNO > 0 AND ROWNUM > 0 AND ROWNUM <= (#{pageNum} * #{amount}))
+			WHERE RN > ((#{pageNum}-1) * #{amount})
+		]]>	
+	</select>	
+	
+	<select id="getTotalCount" resultType="int">
+		select count(bno)
+		from tbl_board
+		where <include refid="criteria"/>
+		bno > 0
+	</select>
+	
+	<select id="searchTest" resultType="com.jaesa.domain.BoardVO">
+		<![CDATA[
+			select *
+			from tbl_board
+			
+			where
+		]]>	
+		
+		<!-- <trim suffix="and">
+			OGNL 표현식
+			T == title, C == content, W = writer 
+			
+			select * 
+			from tbl_board 
+			where (content like 'CCC' OR 
+				title like 'TTT' OR 
+				writer like 'WWW' 
+				) and rownum < 10
+			
+			<foreach collection="map" index="key" item="val" separator="OR" open="(" close=")">
+				<if test="key == 'T'.toString()">
+					title like #{val}
+				</if>
+				<if test="key == 'C'.toString()">
+					content like #{val}
+				</if>
+				<if test="key == 'W'.toString()">
+					writer like #{val}
+				</if>
+			</foreach>
+		</trim> -->
+		<![CDATA[
+			rownum < 10
+		]]>
+	</select>
+</mapper>
